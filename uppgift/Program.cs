@@ -1,5 +1,4 @@
 ﻿using System;
-using uppgiftlibrary;
 
 namespace uppgift
 {
@@ -7,32 +6,45 @@ namespace uppgift
     {
         static void Main(string[] args)
         {
-            string name = GetNameFromUser();
-            string id = GetIdFromUser();
+            /*
+            int minNum = 200;
+            int maxNum = 500; 
+            */
             
-            ItemModel itemModel = new ItemModel
-            {
-                ItemName = name,
-                ItemID = id
-            };
+            
+            while(true){
+                Console.WriteLine("Skriv in produkter, Avsluta med att skriva \'exit\'");
 
-            Console.WriteLine($"Name: {itemModel.ItemName} | ID: {itemModel.ItemID}");
+                string data = GetNameFromUser();
+
+                string[] DataList = new string[10];
+
+
+
+
+                if(data.Trim().ToLower() == "exit"){
+                   
+                    writeList(DataList);
+                    break;
+                }
+
+            }
 
         }
 
 
+        static void writeList(string[] arr){
+            foreach(string i in arr){
+                Console.WriteLine("* {0}", i);
+            }
+        }
+
         static string GetNameFromUser(){
-            Console.Write("enter name: ");
+            Console.Write("Enter Prodoct: ");
             string Name = Console.ReadLine();
-            
             return Name;
         }
 
-        static string GetIdFromUser(){
-            Console.Write("enter id: ");
-            string id = Console.ReadLine();
-
-            return id ;
-        }
+        
     }
 }

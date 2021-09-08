@@ -41,7 +41,8 @@ namespace uppgift
 
 
         static bool validateInput(string input){
-            //xx-000
+            checkForSpecialChar(input);
+
             bool result = false; 
             if(input == ""){
                 Console.ForegroundColor = ConsoleColor.Red;
@@ -49,54 +50,48 @@ namespace uppgift
                 return false;
             }
             
-            //check if the dash "-" exists
-            string format = input.Substring(2, 1);
-            if(format != "-"){
+            //check the string
+            if(!input.Contains("-")){
                 Console.ForegroundColor = ConsoleColor.Red;
-                Console.WriteLine("Wrong format need the \'-\' example: [xx-000]");
+                Console.WriteLine("Wrong format \'-\' was not found");
+                return false;
+            }
+
+            string[] SplitArr = input.Split("-");
+            
+            if(SplitArr[0] == ""){
+                Console.ForegroundColor = ConsoleColor.Red;
+                Console.WriteLine("Wrong format on the left side!");
+                return false;
+            }
+            
+            if(SplitArr[1] == ""){
+                Console.ForegroundColor = ConsoleColor.Red;
+                Console.WriteLine("Wrong format on the right side!");
+                return false;
+            }
+
+            //check fist part
+            if(findnum(SplitArr[0])){
+                Console.ForegroundColor = ConsoleColor.Red;
+                Console.WriteLine("Wrong format on the left side!");
                 return false;
             }else{
                 result = true;
             }
-            
-            //check the string
-            string[] SplitArr = input.Split("-");
-            string FirstCheck = input.Substring(0, 2);
-            bool isNotInt = int.TryParse(SplitArr[0], out int value1);
+
             bool isInt = int.TryParse(SplitArr[1], out int value2); 
-
-            //check fisrt part
-            if(!isNotInt){
-
-                string FirstChar = SplitArr[0].Substring(0, 1);
-                string secondChar = SplitArr[0].Substring(1, 1);
-                bool isFirstChar = int.TryParse(FirstChar, out int char1);
-                bool isSecondChar = int.TryParse(secondChar, out int char2);
-                if(isFirstChar){
-                    Console.ForegroundColor = ConsoleColor.Red;
-                    Console.WriteLine("Wrong format on the left side!");
-                    return false; 
-                } 
-                if(isSecondChar){
-                    Console.ForegroundColor = ConsoleColor.Red;
-                    Console.WriteLine("Wrong format on the left side!");
-                    return false; 
-                }
-            }else{
-                Console.WriteLine("Wrong format on the left side!");
-                return false; 
-            }
             //check second part
             if(isInt){
                 if(value2 < 200){
                     Console.ForegroundColor = ConsoleColor.Red;
-                    Console.WriteLine("must be between 200 and 500!");
-                    return false; 
+                    Console.WriteLine("must be between 200 and 500");
+                    return false;
 
                 }
                 else if (value2 > 500){
                     Console.ForegroundColor = ConsoleColor.Red;
-                    Console.WriteLine("must be between 200 and 500!");
+                    Console.WriteLine("must be between 200 and 500");
                     return false; 
 
                 }
@@ -105,26 +100,49 @@ namespace uppgift
                 }
             }else{
                 Console.ForegroundColor = ConsoleColor.Red;
-                Console.WriteLine("Wrong format on the right side!");
+                Console.WriteLine("Wrong format on the right side");
                 return false; 
             }
             
-
+            
             return result;
         }
 
 
-        static void writeList(string[] arr){
+        static bool checkForSpecialChar(string value){
+                
+            return false; 
+        }
 
-            Console.WriteLine("\nYou enterd these prodoct (sorted):\n");
-            Console.ForegroundColor = ConsoleColor.Green;
-            foreach(string i in arr){
-                if(i != null){
-                    Console.WriteLine("* {0}", i);
+        static bool findnum(string value){
+            char[] chararr = value.ToCharArray();
+            for(var i = 0; i < chararr.Length; i++){
+                string temp = chararr[i].ToString();
+                bool isint = int.TryParse(temp, out int in1);
+                if(isint){
+                    return true;
                 }
             }
-            Console.ResetColor();
-            Console.WriteLine("");
+            return false;
+        }
+
+        static void writeList(string[] arr){
+
+            if(arr.Length == 1){
+                Console.WriteLine("\nNo products enterd:\n");
+            }else{
+                Console.WriteLine("\nYou enterd these product (sorted):\n");
+                Console.ForegroundColor = ConsoleColor.Green;
+                foreach(string i in arr){
+                    if(i != null){
+                        Console.WriteLine("* {0}", i);
+                    }
+                }
+                Console.ResetColor();
+                Console.WriteLine("");
+            }
+
+           
         }
 
         static string GetNameFromUser(){

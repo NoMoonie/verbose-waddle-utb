@@ -59,7 +59,7 @@ namespace uppgift
                 result = true;
             }
             
-
+            //check the string
             string[] SplitArr = input.Split("-");
             string FirstCheck = input.Substring(0, 2);
             bool isNotInt = int.TryParse(SplitArr[0], out int value1);
@@ -71,7 +71,7 @@ namespace uppgift
                 string FirstChar = SplitArr[0].Substring(0, 1);
                 string secondChar = SplitArr[0].Substring(1, 1);
                 bool isChar1 = int.TryParse(FirstChar, out int char1);
-                bool isChar2 = int.TryParse(FirstChar, out int char2);
+                bool isChar2 = int.TryParse(secondChar, out int char2);
 
                 if(isChar1 && isChar2){
                     Console.ForegroundColor = ConsoleColor.Red;

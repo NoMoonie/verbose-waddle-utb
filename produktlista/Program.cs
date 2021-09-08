@@ -70,17 +70,21 @@ namespace uppgift
 
                 string FirstChar = SplitArr[0].Substring(0, 1);
                 string secondChar = SplitArr[0].Substring(1, 1);
-                bool isChar1 = int.TryParse(FirstChar, out int char1);
-                bool isChar2 = int.TryParse(secondChar, out int char2);
-
-                if(isChar1 && isChar2){
+                bool isFirstChar = int.TryParse(FirstChar, out int char1);
+                bool isSecondChar = int.TryParse(secondChar, out int char2);
+                if(isFirstChar){
                     Console.ForegroundColor = ConsoleColor.Red;
                     Console.WriteLine("Wrong format on the left side!");
                     return false; 
                 } 
-                else {
-                    result = true;
+                if(isSecondChar){
+                    Console.ForegroundColor = ConsoleColor.Red;
+                    Console.WriteLine("Wrong format on the left side!");
+                    return false; 
                 }
+            }else{
+                Console.WriteLine("Wrong format on the left side!");
+                return false; 
             }
             //check second part
             if(isInt){

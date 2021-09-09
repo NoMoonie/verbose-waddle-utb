@@ -14,25 +14,27 @@ namespace uppgift
             while(true){
 
                 string data = GetNameFromUser();
-                if(data.Trim().ToLower() == "exit"){
+                string dataTrim = data.Trim();
+
+                if(dataTrim.ToLower() == "exit"){
                     Array.Sort(DataList);
 
                     writeList(DataList);
                     break;
-                }else if(data.Trim().ToLower() == "list"){
+                }else if(dataTrim.ToLower() == "list"){
                     Array.Sort(DataList);
                     writeList(DataList);
                     continue;
                 }
-
-                bool valid = validateInput(data);
+                
+                bool valid = validateInput(dataTrim);
                 
                 if(valid){
-                    DataList[index] = data;
+                    DataList[index] = dataTrim;
                     index++;
                     Array.Resize(ref DataList, index+1);
                     Console.ForegroundColor = ConsoleColor.Green;
-                    Console.WriteLine("product added: " + data);
+                    Console.WriteLine("product added: " + dataTrim);
                 }
                 Console.ResetColor();
             }
@@ -146,7 +148,7 @@ namespace uppgift
         static void writeList(string[] arr){
 
             if(arr.Length == 1){
-                Console.WriteLine("\nNo products enterd:\n");
+                Console.WriteLine("\nNo products enterd\n");
             }else{
                 Console.WriteLine("\nYou enterd these product (sorted):\n");
                 Console.ForegroundColor = ConsoleColor.Green;

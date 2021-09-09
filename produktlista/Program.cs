@@ -119,7 +119,7 @@ namespace uppgift
 
 
         static bool checkForSpecialChar(string value){
-            string specialChar = "_@£$#\"";
+            string specialChar = "_@$#\"\'\\|!%&/(){}[]€";
             char[] specialarr = specialChar.ToCharArray();
 
             char[] chararr = value.ToCharArray();

@@ -8,9 +8,9 @@ namespace uppgift
         {
             string[] DataList = new string[1];
             int index = 0;
-
-            Console.WriteLine("\nWrite in productnumbers, To stop type \'exit\' \nType \'list\' to list out the products enterd \n");
-            
+            string commandStr = "\ncommands:\nExit: quits the program\nList: lists out the qurrently enterd products\nHelp: lists out commands\n";
+            Console.WriteLine("\nWrite in productnumbers");
+            Console.WriteLine(commandStr);
             while(true){
 
                 string data = GetNameFromUser();
@@ -18,7 +18,6 @@ namespace uppgift
 
                 if(dataTrim.ToLower() == "exit"){
                     Array.Sort(DataList);
-
                     writeList(DataList);
                     break;
                 }else if(dataTrim.ToLower() == "list"){
@@ -26,7 +25,11 @@ namespace uppgift
                     writeList(DataList);
                     continue;
                 }
-                
+                else if(dataTrim.ToLower() == "help"){
+                    Console.WriteLine(commandStr);
+                    continue;
+                }
+
                 bool valid = validateInput(dataTrim);
                 
                 if(valid){

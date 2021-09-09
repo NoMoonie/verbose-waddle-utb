@@ -6,6 +6,17 @@ namespace uppgift
     {
         static void Main(string[] args)
         {
+            /*
+                invalid tests
+
+                AC-123    (Number lower than 200)
+                BC-700    (Number higher than 500)
+                B -300    (One space after B)
+                BC- 301   (One space after -)
+                CD-499    (One space after 499)
+                DC-355-   (One - after 355)
+            */
+
             string[] DataList = new string[1];
             int index = 0;
             string commandStr = "\ncommands:\nExit: quits the program\nList: lists out the qurrently enterd products\nHelp: lists out commands\n";
@@ -30,7 +41,7 @@ namespace uppgift
                     continue;
                 }
 
-                bool valid = validateInput(dataTrim);
+                bool valid = validateInput(data);
                 
                 if(valid){
                     DataList[index] = dataTrim;
@@ -46,12 +57,13 @@ namespace uppgift
 
 
         static bool validateInput(string input){
+            //checks for spacial chars 
             if(checkForSpecialChar(input)){
                 Console.ForegroundColor = ConsoleColor.Red;
                 Console.WriteLine("No special charecters allowed");
                 return false;
             }
-
+            //check if the string is empty
             bool result = false; 
             if(input == ""){
                 Console.ForegroundColor = ConsoleColor.Red;
@@ -66,21 +78,51 @@ namespace uppgift
                 return false;
             }
 
+            //split string
             string[] SplitArr = input.Split("-");
             
+            //ends with space
+            if(SplitArr[1].EndsWith(" ")){
+                Console.ForegroundColor = ConsoleColor.Red;
+                Console.WriteLine("Wrong format \'space\' after " + SplitArr[1]);
+                return false;
+            }
+            //start with space
+            if(SplitArr[0].StartsWith(" ")) {
+                Console.ForegroundColor = ConsoleColor.Red;
+                Console.WriteLine("Wrong format \'space\' before " + SplitArr[0].Trim());
+                return false;
+            }
+
+            //check if the string has more the one dash "-"
+            if(SplitArr.Length > 2){
+                Console.ForegroundColor = ConsoleColor.Red;
+                Console.WriteLine("Wrong format \'-\' after " + SplitArr[1]);
+                return false;
+            }
+
+            //check for if there is spaces in middle off the string
+            string[] lastValue = checkForSpaces(input);
+            if(lastValue[0] == "true"){
+                Console.ForegroundColor = ConsoleColor.Red;
+                Console.WriteLine("One space after " + lastValue[1]);  
+                return false;
+            }
+            
+            //checks if the first part off the string is empty
             if(SplitArr[0] == ""){
                 Console.ForegroundColor = ConsoleColor.Red;
                 Console.WriteLine("Wrong format on the left side!");
                 return false;
             }
-            
+            //checks if the second part off the string is empty
             if(SplitArr[1] == ""){
                 Console.ForegroundColor = ConsoleColor.Red;
                 Console.WriteLine("Wrong format on the right side!");
                 return false;
             }
 
-            //check fist part
+            //checks if the first part has numbers
             if(findnum(SplitArr[0])){
                 Console.ForegroundColor = ConsoleColor.Red;
                 Console.WriteLine("Wrong format on the left side!");
@@ -89,18 +131,19 @@ namespace uppgift
                 result = true;
             }
 
-            bool isInt = int.TryParse(SplitArr[1], out int value2); 
+            //checks the second part if is a number and in the range of the min and max 
+            bool isInt = int.TryParse(SplitArr[1], out int value2);
             //check second part
             if(isInt){
                 if(value2 < 200){
                     Console.ForegroundColor = ConsoleColor.Red;
-                    Console.WriteLine("must be between 200 and 500");
+                    Console.WriteLine("Number lower than 200");
                     return false;
 
                 }
                 else if (value2 > 500){
                     Console.ForegroundColor = ConsoleColor.Red;
-                    Console.WriteLine("must be between 200 and 500");
+                    Console.WriteLine("Number higher than 500");
                     return false; 
 
                 }
@@ -115,6 +158,24 @@ namespace uppgift
             
             
             return result;
+        }
+
+        static string[] checkForSpaces(string value){
+            char[] charaar = value.ToCharArray();
+            string[] resultarr = new string[2];
+            string result = "false";
+            string oldvalue = "";
+            foreach(char i in charaar){
+                string valueTemp = i.ToString();
+                if(valueTemp == " "){
+                    result = "true";
+                    break;
+                }
+                oldvalue = i.ToString();
+            }
+            resultarr[0] = result;
+            resultarr[1] = oldvalue;
+            return resultarr;
         }
 
 

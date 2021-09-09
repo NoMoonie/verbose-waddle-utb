@@ -41,7 +41,11 @@ namespace uppgift
 
 
         static bool validateInput(string input){
-            checkForSpecialChar(input);
+            if(checkForSpecialChar(input)){
+                Console.ForegroundColor = ConsoleColor.Red;
+                Console.WriteLine("No special charecters allowed");
+                return false;
+            }
 
             bool result = false; 
             if(input == ""){
@@ -110,7 +114,20 @@ namespace uppgift
 
 
         static bool checkForSpecialChar(string value){
-                
+            string specialChar = "_@£$#\"";
+            char[] specialarr = specialChar.ToCharArray();
+
+            char[] chararr = value.ToCharArray();
+            foreach(char i in chararr){
+                string inputTemp = i.ToString();
+                foreach(char j in specialChar){
+                    string specialTemp = j.ToString();
+                    bool result = inputTemp.Equals(specialTemp);
+                    if(result){
+                        return true;
+                    }
+                }
+            }
             return false; 
         }
 
